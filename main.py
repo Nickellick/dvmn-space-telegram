@@ -1,4 +1,3 @@
-from pty import slave_open
 import requests
 from pathlib import Path
 
@@ -23,7 +22,7 @@ def download_and_save(link, path):
 
 
 def main():
-    img_binary = download_and_save(
+    download_and_save(
         'https://upload.wikimedia.org/wikipedia/'
         'commons/3/3f/HST-SM4.jpeg',
         'images/hubble.jpeg'
