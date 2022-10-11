@@ -1,3 +1,4 @@
+from datetime import date, datetime
 import os
 from pathlib import Path
 
@@ -50,6 +51,24 @@ def get_img_extension(link):
     path = parse.urlsplit(link_decoded).path
     _, ext = os.path.splitext(path)
     return ext
+
+
+def get_apod_pictures(start_date, end_date, api_key, pic_folder='images'):
+    params = {
+        'api_key': api_key,
+        'start_date': start_date.strftime('%Y-%m-%d'),
+        'end_date': end_date.strftime('%Y-%m-%d')
+    }
+
+    response = requests.get('https://api.nasa.gov/planetary/apod', params=params)
+
+    response.raise_for_status()
+
+    photo_urls = [apod_meta['url'] for apod_meta in response.json()]
+
+    for i, url in enumerate(photo_urls):
+        ext = get_img_extension(url)
+        download_and_save(url, f'{pic_folder}/apod_{i}{ext}')
 
 
 def main():
