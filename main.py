@@ -22,12 +22,20 @@ def download_and_save(link, path):
     save_img(path, img_binary)
 
 
+def download_spacex_pictures(id, pic_folder):
+    response = requests.get(f'https://api.spacexdata.com/v5/launches/{id}')
+
+    response.raise_for_status()
+
+    launch_data = response.json()
+    picture_links = launch_data['links']['flickr']['original']
+
+    for i, link in enumerate(picture_links):
+        download_and_save(link, f'{pic_folder}/{i + 1}.jpg')
+
+
 def main():
-    download_and_save(
-        'https://upload.wikimedia.org/wikipedia/'
-        'commons/3/3f/HST-SM4.jpeg',
-        'images/hubble.jpeg'
-    )
+    download_spacex_pictures('60e3bf0d73359e1e20335c37', 'images')
 
 
 if __name__ == '__main__':
