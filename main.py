@@ -1,7 +1,8 @@
+import os
 from pathlib import Path
 
 import requests
-
+from urllib import parse
 
 def download_img(link):
     response = requests.get(link)
@@ -44,8 +45,15 @@ def fetch_spacex_last_launch(pic_folder):
     download_spacex_pictures(id_, pic_folder)
 
 
+def get_img_extension(link):
+    link_decoded = parse.unquote(link)
+    path = parse.urlsplit(link_decoded).path
+    _, ext = os.path.splitext(path)
+    return ext
+
+
 def main():
-    fetch_spacex_last_launch('images_lst')
+    print(get_img_extension('https://apod.nasa.gov/apod/image/2210/Pelican_Almeida_2000.png'))
 
 
 if __name__ == '__main__':
