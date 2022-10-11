@@ -22,8 +22,8 @@ def download_and_save(link, path):
     save_img(path, img_binary)
 
 
-def download_spacex_pictures(id, pic_folder):
-    response = requests.get(f'https://api.spacexdata.com/v5/launches/{id}')
+def download_spacex_pictures(id_, pic_folder):
+    response = requests.get(f'https://api.spacexdata.com/v5/launches/{id_}')
 
     response.raise_for_status()
 
@@ -34,8 +34,18 @@ def download_spacex_pictures(id, pic_folder):
         download_and_save(link, f'{pic_folder}/{i + 1}.jpg')
 
 
+def fetch_spacex_last_launch(pic_folder):
+    response = requests.get('https://api.spacexdata.com/v5/launches/latest')
+
+    response.raise_for_status()
+
+    id_ = response.json()['id']
+
+    download_spacex_pictures(id_, pic_folder)
+
+
 def main():
-    download_spacex_pictures('60e3bf0d73359e1e20335c37', 'images')
+    fetch_spacex_last_launch('images_lst')
 
 
 if __name__ == '__main__':
