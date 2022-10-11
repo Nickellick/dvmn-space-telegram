@@ -1,9 +1,11 @@
-from datetime import date, datetime
+import datetime
 import os
 from pathlib import Path
 
+import dotenv
 import requests
 from urllib import parse
+
 
 def download_img(link):
     response = requests.get(link)
@@ -72,7 +74,7 @@ def get_apod_pictures(start_date, end_date, api_key, pic_folder='images'):
 
 
 def main():
-    print(get_img_extension('https://apod.nasa.gov/apod/image/2210/Pelican_Almeida_2000.png'))
+    dotenv.load_dotenv()
 
 
 if __name__ == '__main__':
