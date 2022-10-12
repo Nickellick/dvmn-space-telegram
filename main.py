@@ -7,6 +7,7 @@ import requests
 from urllib import parse
 
 
+
 def download_img(link):
     response = requests.get(link)
     response.raise_for_status()
@@ -79,13 +80,37 @@ def get_apod_pictures(start_date, end_date, api_key, pic_folder='images'):
         download_and_save(link, f'{pic_folder}/apod_{i}{ext}')
 
 
+def get_epic_links(api_key):
+    params = {
+        'api_key': api_key,
+    }
+
+    response = requests.get(
+        'https://api.nasa.gov/EPIC/api/natural/images',
+        params=params
+    )
+
+    response.raise_for_status()
+
+    epic_links = []
+
+    for photo_meta in response.json():
+        filename = photo_meta['image']
+        date = photo_meta['date'].split()[0]  # 2022-10-10 00:50:27
+        year, month, day = date.split('-')  
+        photo_link = 'https://api.nasa.gov/EPIC/archive/natural/'
+        photo_link += f'{year}/{month}/{day}/png/{filename}.png'
+        photo_link += f'?{parse.urlencode(params)}'
+
+        epic_links.append(photo_link)
+
+    return epic_links
+
+
 def main():
     dotenv.load_dotenv()
     api_key = os.getenv('APOD_API_KEY')
-    end_date = datetime.datetime.today()
-    start_date = end_date - datetime.timedelta(days=30)
-
-    get_apod_pictures(start_date, end_date, api_key)
+    print(get_epic_links(api_key))
 
 
 if __name__ == '__main__':
