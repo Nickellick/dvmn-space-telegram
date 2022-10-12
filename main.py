@@ -80,7 +80,7 @@ def get_apod_pictures(start_date, end_date, api_key, pic_folder='images'):
         download_and_save(link, f'{pic_folder}/apod_{i}{ext}')
 
 
-def get_epic_links(api_key):
+def get_epic_photos(api_key, pic_folder='images'):
     params = {
         'api_key': api_key,
     }
@@ -92,25 +92,20 @@ def get_epic_links(api_key):
 
     response.raise_for_status()
 
-    epic_links = []
-
-    for photo_meta in response.json():
+    for i, photo_meta in enumerate(response.json()):
         filename = photo_meta['image']
-        date = photo_meta['date'].split()[0]  # 2022-10-10 00:50:27
-        year, month, day = date.split('-')  
+        photo_date = datetime.datetime.fromisoformat(photo_meta['date'])
         photo_link = 'https://api.nasa.gov/EPIC/archive/natural/'
-        photo_link += f'{year}/{month}/{day}/png/{filename}.png'
+        photo_link += f'{photo_date.year}/{photo_date.month}/{photo_date.day}/'
+        photo_link += f'png/{filename}.png'
         photo_link += f'?{parse.urlencode(params)}'
-
-        epic_links.append(photo_link)
-
-    return epic_links
+        download_and_save(photo_link, f'{pic_folder}/epic_{i}.png')
 
 
 def main():
     dotenv.load_dotenv()
     api_key = os.getenv('APOD_API_KEY')
-    print(get_epic_links(api_key))
+    get_epic_photos(api_key)
 
 
 if __name__ == '__main__':
