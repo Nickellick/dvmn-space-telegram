@@ -7,7 +7,6 @@ import requests
 from urllib import parse
 
 
-
 def download_img(link):
     response = requests.get(link)
     response.raise_for_status()
