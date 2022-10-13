@@ -103,7 +103,7 @@ def get_epic_photos(api_key, pic_folder='images'):
 
 def main():
     dotenv.load_dotenv()
-    api_key = os.getenv('APOD_API_KEY')
+    api_key = os.getenv('NASA_API_KEY')
     get_epic_photos(api_key)
 
 
