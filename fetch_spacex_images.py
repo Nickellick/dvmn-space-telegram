@@ -10,7 +10,7 @@ def init_argparse():
         description='SpaceX photo parser'
     )
     parser.add_argument(
-        '-lid',
+        '-l',
         '--launch_id',
         help='Launch id. Latest launch photos will be'
         'fetched if not provided',
@@ -19,7 +19,7 @@ def init_argparse():
     parser.add_argument(
         '-d',
         '--directory',
-        help='defaut directory where images will be fetched',
+        help='Defaut directory where images will be fetched',
         default='images'
     )
     return parser.parse_args()
@@ -34,7 +34,10 @@ def fetch_spacex_pictures(id_, pic_folder):
     picture_links = launch_data['links']['flickr']['original']
 
     for i, link in enumerate(picture_links):
-        fetch_and_save(link, f'{pic_folder}/{i + 1}.jpg')
+        fetch_and_save(
+            link,
+            f'{pic_folder}/spacex_{launch_data["id"]}_{i}.jpg'
+        )
 
 
 def fetch_spacex_last_launch(pic_folder):
@@ -53,3 +56,7 @@ def main():
         fetch_spacex_pictures(args.launch_id, img_directory)
     else:
         fetch_spacex_last_launch(img_directory)
+
+
+if __name__ == '__main__':
+    main()
