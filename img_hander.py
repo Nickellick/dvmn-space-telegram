@@ -1,4 +1,9 @@
+import os
+from pathlib import Path
+
 import requests
+from urllib import parse
+
 
 def fetch_img_content(link):
     response = requests.get(link)
@@ -17,3 +22,10 @@ def save_img(img_path, img_binary):
 def fetch_and_save(link, path):
     img_binary = fetch_img_content(link)
     save_img(path, img_binary)
+
+
+def get_img_extension(link):
+    link_decoded = parse.unquote(link)
+    path = parse.urlsplit(link_decoded).path
+    _, ext = os.path.splitext(path)
+    return ext
