@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 import requests
 from urllib import parse
 
-from img_hander import fetch_and_save
+from img_handlers import fetch_and_save
 
 
 def init_argparse():

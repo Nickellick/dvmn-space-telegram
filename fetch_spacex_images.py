@@ -2,7 +2,7 @@ import argparse
 
 import requests
 
-from img_hander import fetch_and_save
+from img_handlers import fetch_and_save
 
 
 def init_argparse():

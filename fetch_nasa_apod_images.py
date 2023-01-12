@@ -5,8 +5,8 @@ import os
 from dotenv import load_dotenv
 import requests
 
-from img_hander import fetch_and_save
-from img_hander import get_img_extension
+from img_handlers import fetch_and_save
+from img_handlers import get_img_extension
 
 
 def init_argparse():
