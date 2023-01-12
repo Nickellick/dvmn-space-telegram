@@ -16,13 +16,13 @@ def init_argparse():
         '-p',
         '--period',
         type=float,
-        help='Period between uploading photos (in hrs)',
+        help='Period between uploading photos (in hours). Supports float',
         default=4
     )
     parser.add_argument(
         '-d',
         '--directory',
-        help='Defaut directory where images will be fetched',
+        help='Defaut image uploading directory',
         default='images'
     )
     return parser.parse_args()
