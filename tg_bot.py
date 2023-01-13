@@ -75,7 +75,7 @@ def main():
                     photo=photo_file
                 )
             images_to_publish.remove(image)
-        time.sleep(60 * 60 * args.period)
+            time.sleep(60 * 60 * args.period)
 
 
 if __name__ == '__main__':
