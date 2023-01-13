@@ -30,13 +30,13 @@ def fetch_spacex_pictures(id_, pic_folder):
 
     response.raise_for_status()
 
-    launch_data = response.json()
-    picture_links = launch_data['links']['flickr']['original']
+    launch = response.json()
+    picture_links = launch['links']['flickr']['original']
 
     for i, link in enumerate(picture_links):
         fetch_and_save(
             link,
-            f'{pic_folder}/spacex_{launch_data["id"]}_{i}.jpg'
+            f'{pic_folder}/spacex_{launch["id"]}_{i}.jpg'
         )
 
 
