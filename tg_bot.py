@@ -69,10 +69,11 @@ def main():
             images_to_publish = get_img_paths(args.directory)
             random.shuffle(images_to_publish)
         for image in images_to_publish.copy():
-            bot.send_photo(
-                chat_id=chat_id,
-                photo=open(image, 'rb')
-            )
+            with open(image, 'rb') as photo_file:
+                bot.send_photo(
+                    chat_id=chat_id,
+                    photo=photo_file
+                )
             images_to_publish.remove(image)
         time.sleep(60 * 60 * args.period)
 
