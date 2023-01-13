@@ -45,7 +45,7 @@ def fetch_all_epic_links(api_key):
 
 def fetch_all_epic_photos(api_key, directory):
     for photo_meta in fetch_all_epic_links(api_key):
-        photo_link = photo_link_formatter(api_key, photo_meta)
+        photo_link = create_photo_link(api_key, photo_meta)
         fetch_and_save(
             photo_link,
             f'{directory}/epic_{photo_meta["date"]}.png'
@@ -54,14 +54,14 @@ def fetch_all_epic_photos(api_key, directory):
 
 def fetch_latest_epic_photo(api_key, directory):
     photo_meta = fetch_all_epic_links(api_key)[-1]
-    photo_link = photo_link_formatter(api_key, photo_meta)
+    photo_link = create_photo_link(api_key, photo_meta)
     fetch_and_save(
         photo_link,
         f'{directory}/epic_{photo_meta["date"]}.png'
     )
 
 
-def photo_link_formatter(api_key, photo_meta):
+def create_photo_link(api_key, photo_meta):
     params = {
         'api_key': api_key
     }
