@@ -60,14 +60,6 @@ def fetch_apod_picture(api_key, directory, date: datetime.datetime.date):
             )
 
 
-def fetch_apod_picture_today(api_key, directory):
-    fetch_apod_picture(
-        api_key,
-        directory,
-        datetime.datetime.today().date()
-        )
-
-
 def fetch_apod_pictures(api_key, directory, start_date, end_date):
     params = {
         'api_key': api_key,
@@ -129,7 +121,11 @@ def main():
             end_date
         )
     else:
-        fetch_apod_picture_today(api_key, img_directory)
+        fetch_apod_picture(
+            api_key,
+            img_directory,
+            datetime.datetime.today().date()
+        )
 
 
 if __name__ == '__main__':
