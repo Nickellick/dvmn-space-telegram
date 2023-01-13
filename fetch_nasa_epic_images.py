@@ -44,33 +44,37 @@ def fetch_all_epic_links(api_key):
 
 
 def fetch_all_epic_photos(api_key, directory):
+    params = {
+        'api_key': api_key
+    }
     for photo_meta in fetch_all_epic_links(api_key):
-        photo_link = create_photo_link(api_key, photo_meta)
+        photo_link = create_photo_link(photo_meta)
         fetch_and_save(
             photo_link,
-            f'{directory}/epic_{photo_meta["date"]}.png'
+            f'{directory}/epic_{photo_meta["date"]}.png',
+            params=params
         )
 
 
 def fetch_latest_epic_photo(api_key, directory):
-    photo_meta = fetch_all_epic_links(api_key)[-1]
-    photo_link = create_photo_link(api_key, photo_meta)
-    fetch_and_save(
-        photo_link,
-        f'{directory}/epic_{photo_meta["date"]}.png'
-    )
-
-
-def create_photo_link(api_key, photo_meta):
     params = {
         'api_key': api_key
     }
+    photo_meta = fetch_all_epic_links(api_key)[-1]
+    photo_link = create_photo_link(photo_meta)
+    fetch_and_save(
+        photo_link,
+        f'{directory}/epic_{photo_meta["date"]}.png',
+        params=params
+    )
+
+
+def create_photo_link(photo_meta):
     filename = photo_meta['image']
     photo_date = datetime.datetime.fromisoformat(photo_meta['date']).date()
-    photo_link = 'https://api.nasa.gov/EPIC/archive/natural/'
-    photo_link += photo_date.strftime('%Y/%m/%d/')
-    photo_link += f'png/{filename}.png'
-    photo_link += f'?{parse.urlencode(params)}'
+    date_formatted = photo_date.strftime('%Y/%m/%d')
+    photo_link = ('https://api.nasa.gov/EPIC/archive/natural/'
+                  f'{date_formatted}/png/{filename}.png')
     return photo_link
 
 

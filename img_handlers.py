@@ -5,8 +5,8 @@ import requests
 from urllib import parse
 
 
-def fetch_img_content(link):
-    response = requests.get(link)
+def fetch_img_content(link, params=None):
+    response = requests.get(link, params)
     response.raise_for_status()
 
     return response.content
@@ -19,8 +19,8 @@ def save_img(img_path, img_binary):
         img_file.write(img_binary)
 
 
-def fetch_and_save(link, path):
-    img_binary = fetch_img_content(link)
+def fetch_and_save(link, path, params=None):
+    img_binary = fetch_img_content(link, params=params)
     save_img(path, img_binary)
 
 
